@@ -1,0 +1,30 @@
+import express from "express";
+import mongoose from "mongoose";
+import cors from "cors";
+import morgan from "morgan";
+import { MONGO_URI, PORT } from "./config.js";
+import authRoutes from "./routes/auth.route.js";
+import taskRoutes from "./routes/task.route.js";
+import categoryRoutes from "./routes/category.route.js";
+
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+
+app.use(morgan("dev"));
+
+app.use("/api/auth", authRoutes);
+app.use("/api/tasks", taskRoutes);
+app.use("/api/categories", categoryRoutes);
+
+app.get("/", (req, res) => {
+    res.send("Server đã chạy thành công!");
+})
+
+mongoose
+    .connect(MONGO_URI)
+    .then(() => {
+        app.listen(PORT, () => console.log(` Server running on port ${PORT}`));
+    })
+    .catch((err) => console.error(err));
