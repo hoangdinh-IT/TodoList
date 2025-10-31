@@ -163,43 +163,36 @@ const AddTaskModal = ({ editingTask, categories, onClose }) => {
             {/* Category */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Danh mục</label>
-              <div className="relative w-full">
-                <select
-                  name="categoryId"
-                  value={formData.categoryId}
-                  onChange={handleChange}
-                  className="w-full appearance-none rounded-xl border border-gray-300 bg-white px-4 py-3 pr-10 text-gray-800 font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                >
-                  <option value="" disabled>
-                    Chọn danh mục
-                  </option>
-                  {categories?.length > 0 ? (
-                    categories.map((cat) => (
-                      <option key={cat._id} value={cat._id}>
-                        {cat.title}
-                      </option>
-                    ))
-                  ) : (
-                    <option disabled>Chưa có danh mục</option>
-                  )}
-                </select>
+              <div>
+  <select
+    name="categoryId"
+    value={formData.categoryId}
+    onChange={handleChange}
+    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-gray-800 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+  >
+    <option value="" disabled>
+      Chọn danh mục
+    </option>
 
-                {/* Icon dropdown */}
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400">
-                  <svg
-                    className="h-5 w-5"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M5.23 7.21a.75.75 0 011.06.02L10 11.585l3.71-4.355a.75.75 0 111.14.976l-4.25 5a.75.75 0 01-1.14 0l-4.25-5a.75.75 0 01.02-1.06z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </div>
-              </div>
+    {categories?.length > 0 ? (
+      categories.map((cat) => (
+        <option key={cat._id} value={cat._id}>
+          {cat.title}
+        </option>
+      ))
+    ) : (
+      <option disabled>Chưa có danh mục</option>
+    )}
+  </select>
+
+  {/* Thông báo ngoài select */}
+  {(!categories || categories.length === 0) && (
+    <p className="text-red-500 mt-1 text-sm">
+      Hiện tại chưa có danh mục nào. Vui lòng thêm danh mục mới tại <br />QUẢN LÝ DANH MỤC!
+    </p>
+  )}
+</div>
+
             </div>
 
             {/* Buttons */}
