@@ -26,13 +26,13 @@ const Navbar = () => {
           </h1>
         </div>
 
-        {/* Nút quản lý danh mục + đăng xuất */}
+        {/* Nút quản lý thể loại + đăng xuất */}
         <div className="flex items-center gap-4">
           <button
             onClick={() => setIsCategoryModal(true)}
             className="bg-gradient-to-r from-purple-100 to-purple-200 hover:from-purple-200 hover:to-purple-300 text-purple-700 font-medium px-4 py-2 rounded-xl shadow-sm hover:shadow-md transition-all duration-200"
           >
-            Quản lý danh mục
+            Quản lý thể loại
           </button>
 
           <button

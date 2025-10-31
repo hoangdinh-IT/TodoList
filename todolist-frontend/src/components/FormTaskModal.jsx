@@ -162,7 +162,7 @@ const AddTaskModal = ({ editingTask, categories, onClose }) => {
 
             {/* Category */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Danh mục</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Thể loại</label>
               <div>
   <select
     name="categoryId"
@@ -171,7 +171,7 @@ const AddTaskModal = ({ editingTask, categories, onClose }) => {
     className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-gray-800 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
   >
     <option value="" disabled>
-      Chọn danh mục
+      Chọn thể loại
     </option>
 
     {categories?.length > 0 ? (
@@ -181,14 +181,14 @@ const AddTaskModal = ({ editingTask, categories, onClose }) => {
         </option>
       ))
     ) : (
-      <option disabled>Chưa có danh mục</option>
+      <option disabled>Chưa có thể loại</option>
     )}
   </select>
 
   {/* Thông báo ngoài select */}
   {(!categories || categories.length === 0) && (
     <p className="text-red-500 mt-1 text-sm">
-      Hiện tại chưa có danh mục nào. Vui lòng thêm danh mục mới tại <br />QUẢN LÝ DANH MỤC!
+      Hiện tại chưa có thể loại nào. Vui lòng thêm thể loại mới tại <br />QUẢN LÝ THỂ LOẠI!
     </p>
   )}
 </div>

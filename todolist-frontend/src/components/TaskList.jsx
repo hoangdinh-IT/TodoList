@@ -20,7 +20,7 @@ const TaskList = ({ tasks, categories, onToggleComplete, onEdit, onDelete }) => 
       <div className="grid grid-cols-[1fr_150px_150px_120px] px-4 py-2 text-sm font-semibold text-gray-500 mb-2">
         <span className="text-left px-7">Công việc</span>
         <span className="text-center">Ngày hết hạn</span>
-        <span className="text-center">Danh mục</span>
+        <span className="text-center">Thể loại</span>
         <span className="text-center">Thao tác</span>
       </div>
 
