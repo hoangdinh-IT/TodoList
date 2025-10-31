@@ -14,8 +14,8 @@ import useTitle from "../hooks/useTitle";
 const Login = () => {
   useTitle("Đăng nhập | TodoList");
 
-  const [username, setUsername] = useState("hoangdinh.040104@gmail.com");
-  const [password, setPassword] = useState("123456");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   const { showSnackbar } = useSnackbar();
