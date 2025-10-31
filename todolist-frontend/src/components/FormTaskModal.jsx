@@ -53,7 +53,7 @@ const AddTaskModal = ({ editingTask, categories, onClose }) => {
       onClose();
     },
     onError: (err) => {
-      showSnackbar("Thêm công việc thất bại!" || err?.response?.data?.message, "error");
+      showSnackbar(err?.response?.data?.message || "Thêm công việc thất bại!", "error");
     }
   });
 
@@ -71,7 +71,7 @@ const AddTaskModal = ({ editingTask, categories, onClose }) => {
       onClose();
     },
     onError:(err) => {
-      showSnackbar("Cập nhật công việc thất bại!" || err?.response?.data?.message, "error");
+      showSnackbar(err?.response?.data?.message || "Cập nhật công việc thất bại!", "error");
     }
   })
 

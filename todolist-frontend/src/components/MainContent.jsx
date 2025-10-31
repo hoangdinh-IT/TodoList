@@ -69,12 +69,16 @@ const MainContent = ({ isState }) => {
 
   const updateCompletedTask = useMutation({
     mutationFn: ({ taskId, completed }) => taskAPI.updateCompleted(taskId, completed),
-    onSuccess: () => {
-      showSnackbar("Đánh dấu công việc hoàn thành thành công!", "success");
+    onSuccess: (data) => {
+      const message = data.completed
+        ? `🎉 Công việc "${data.title}" đã được đánh dấu hoàn thành!`
+        : `↩️ Công việc "${data.title}" đã được hoàn tác!`;
+
+      showSnackbar(message, "success");
       queryClient.invalidateQueries(["tasks"]);
     },
     onError: (err) => {
-      showSnackbar("Đánh dấu hoàn thành công việc thất bại!" || err?.response?.data?.message, "error");
+      showSnackbar(err?.response?.data?.message || "Đánh dấu công việc thất bại!", "error");
     }
   })
 
@@ -107,7 +111,7 @@ const MainContent = ({ isState }) => {
       queryClient.invalidateQueries(["tasks"]);
     },
     onError: (err) => {
-      showSnackbar("Xoá công việc thất bại!" || err?.response?.data?.message, "error");
+      showSnackbar(err?.response?.data?.message || "Xoá công việc thất bại!", "error");
     }
   });
 
