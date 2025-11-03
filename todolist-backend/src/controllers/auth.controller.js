@@ -13,12 +13,12 @@ const register = async (req, res) => {
 
         const newUser = await User.create({ username, password });
 
-        res.json({
+        return res.status(201).json({
             _id: newUser._id,
             username: newUser.username
         })
     } catch (err) {
-        throw err;
+        res.status(500).json({ message: "Lỗi server!", error: err.message });
     }
 }
 

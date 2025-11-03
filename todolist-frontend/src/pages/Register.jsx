@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IoIosPerson, IoIosLock, IoIosEye, IoIosEyeOff } from "react-icons/io";
 import { IoHome } from "react-icons/io5";
 import { authAPI } from "../services/api";
@@ -19,10 +19,12 @@ const Register = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const { showSnackbar } = useSnackbar();
+  const navigate = useNavigate();
 
   const register = useMutation({
     mutationFn: authAPI.register,
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log(data);
       showSnackbar("Đăng ký tài khoản thành công!", "success");
       navigate("/login");
     },
@@ -155,10 +157,10 @@ const Register = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            disabled={register.isPending}
+            disabled={register.isLoading}
             className="w-full bg-gradient-to-r from-pink-500 to-indigo-500 hover:from-pink-600 hover:to-indigo-600 text-white font-semibold py-2.5 rounded-lg shadow-lg flex justify-center items-center transition-all duration-200"
           >
-            {register.isPending ? <Spinner /> : "ĐĂNG KÝ"}
+            {register.isLoading ? <Spinner /> : "ĐĂNG KÝ"}
           </button>
         </form>
 
