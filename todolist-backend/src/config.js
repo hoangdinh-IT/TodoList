@@ -7,6 +7,6 @@ dotenv.config();
 
 const MONGO_URI = process.env.MONGO_URI;
 const JWT_SECRET = process.env.JWT_SECRET;
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 
 export { MONGO_URI, JWT_SECRET, PORT }
