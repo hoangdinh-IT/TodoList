@@ -10,7 +10,7 @@ import categoryRoutes from "./routes/category.route.js";
 const app = express();
 
 const allowedOrigins = [
-  'https://todo-list-two-kappa-51.vercel.app',  // URL FE Vercel của bạn
+  'https://todo-list-rkait.vercel.app',  // URL FE Vercel của bạn
   'http://localhost:5173'                       // Local dev (Vite default port)
 ];
 
