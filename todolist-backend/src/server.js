@@ -9,7 +9,21 @@ import categoryRoutes from "./routes/category.route.js";
 
 const app = express();
 
-app.use(cors());
+const allowedOrigins = [
+  'http://localhost:5173', // dev
+  'https://your-frontend.vercel.app' // sau khi deploy FE
+];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
 app.use(express.json());
 
 app.use(morgan("dev"));

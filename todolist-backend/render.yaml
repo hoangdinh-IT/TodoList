@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: todolist-backend
+    env: node
+    region: singapore
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start    # TỐT HƠN: dùng npm start
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: ~18.20.0
+      - key: PORT
+        value: 10000
+      - key: MONGO_URI
+        sync: false   # bạn nhập thủ công trên dashboard
+      - key: JWT_SECRET
+        generateValue: true   # Render tự tạo secret mạnh
