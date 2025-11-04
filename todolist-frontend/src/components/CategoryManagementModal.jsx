@@ -92,14 +92,14 @@ const CategoryManagementModal = ({ onClose }) => {
   });
 
   const handleDelete = (categoryId) => {
-  showDialog({
-    title: "XÁC NHẬN XOÁ THỂ LOẠI",
-    message: "Khi bạn xoá thể loại này, tất cả công việc thuộc thể loại cũng sẽ bị xoá vĩnh viễn. Bạn có chắc chắn muốn tiếp tục?",
-    confirmText: "Xoá",
-    cancelText: "Hủy",
-    confirmColor: "error",
-    onConfirm: () => deleteCategory.mutate(categoryId),
-  });
+    showDialog({
+      title: "XÁC NHẬN XOÁ THỂ LOẠI",
+      message: "Khi bạn xoá thể loại này, tất cả công việc thuộc thể loại cũng sẽ bị xoá vĩnh viễn. Bạn có chắc chắn muốn tiếp tục?",
+      confirmText: "Xoá",
+      cancelText: "Hủy",
+      confirmColor: "error",
+      onConfirm: () => deleteCategory.mutate(categoryId),
+    });
 };
 
   // 🔹 Khi người dùng kéo & thả item

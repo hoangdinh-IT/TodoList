@@ -129,7 +129,7 @@ const MainContent = ({ isState }) => {
   if (loadingTasks || loadingCategories) return <Spinner />;
 
   return (
-    <div className="flex-1 p-8 bg-gray-50 overflow-y-auto relative">
+    <div className="flex-1 p-4 sm:p-8 bg-gray-50 overflow-y-auto relative">
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
         <div className="flex-1 text-center">
