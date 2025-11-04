@@ -25,10 +25,6 @@ const CategoryManagementModal = ({ onClose }) => {
     queryFn: categoryAPI.getAll,
   });
 
-  // useEffect(() => {
-  //   if (isCategoryModal) resetForm();
-  // }, [isCategoryModal]);
-
   useEffect(() => {
     if (data) setCategories(data);
   }, [data]);

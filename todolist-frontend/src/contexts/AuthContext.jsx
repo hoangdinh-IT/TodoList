@@ -11,7 +11,8 @@ const AuthProvider = ({ children }) => {
         const savedUser = localStorage.getItem("user");
         const savedToken = localStorage.getItem("token");
         if (savedUser && savedToken) {
-            setUser({ username: savedUser })
+            setUser({ username: savedUser });
+            setToken(savedToken);
         }
     }, []);
 

@@ -13,4 +13,4 @@ router.get("/:taskId", protect, getTask);
 router.put("/:taskId", protect, updateTask);
 router.delete("/:taskId", protect, deleteTask);
 
-export default router
+export default router;

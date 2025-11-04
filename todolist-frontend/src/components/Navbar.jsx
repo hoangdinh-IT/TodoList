@@ -1,6 +1,6 @@
 import { useState } from "react";
 import assets from "../assets/assets";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import CategoryModal from "./CategoryManagementModal";
 
