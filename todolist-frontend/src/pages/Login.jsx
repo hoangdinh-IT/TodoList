@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, replace, useNavigate } from "react-router-dom";
 import { IoIosPerson, IoIosLock, IoIosEye, IoIosEyeOff } from "react-icons/io";
 import { IoHome } from "react-icons/io5";
 import { motion } from "framer-motion";
@@ -21,15 +21,21 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const { showSnackbar } = useSnackbar();
-  const { login } = useAuth();
+  const { user, login } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [user]);
 
   const loginMutation = useMutation({
     mutationFn: authAPI.login,
     onSuccess: (data) => {
       login(data.username, data.token);
       showSnackbar("Đăng nhập thành công!", "success");
-      navigate("/dashboard");
+      navigate("/dashboard", { replace: true });
     },
     onError: (err) => {
       showSnackbar(err.response?.data?.message || "Đăng nhập thất bại!", "error");
@@ -127,6 +133,15 @@ const Login = () => {
               </div>
             </div>
 
+            <div className="flex justify-end mt-2">
+              <Link
+                to="/forgot-password"
+                className="text-sm text-pink-300 hover:text-pink-400 font-medium transition-colors duration-200"
+              >
+                Quên mật khẩu?
+              </Link>
+            </div>
+
             {/* Button */}
             <button
               type="submit"
@@ -141,7 +156,7 @@ const Login = () => {
             Bạn chưa có tài khoản?{" "}
             <Link
               to="/register"
-              className="text-pink-300 hover:text-white font-semibold transition-all"
+              className="text-pink-300 hover:text-pink-400 font-semibold transition-all"
             >
               Đăng ký
             </Link>

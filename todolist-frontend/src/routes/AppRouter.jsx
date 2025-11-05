@@ -6,6 +6,7 @@ import Home from "../pages/Home";
 import Register from "../pages/Register";
 import Login from "../pages/Login";
 import Dashboard from "../pages/Dashboard";
+import ForgotPassword from "../pages/ForgotPassword";
 
 const AnimatedRoutes = () => {
     const location = useLocation();
@@ -16,11 +17,12 @@ const AnimatedRoutes = () => {
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route
                     path="/dashboard"
                     element={
                         <ProtectedRoute>
-                        <Dashboard />
+                            <Dashboard />
                         </ProtectedRoute>
                     }
                 />

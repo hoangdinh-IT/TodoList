@@ -54,6 +54,17 @@ const authAPI = {
         } catch (err) {
             throw err;
         }
+    },
+
+    changePassword: async({ username, oldPassword, newPassword }) => {
+        try {
+            const reponse = await API.post("/api/auth/change-password", {
+                username, oldPassword, newPassword
+            });
+            return reponse.data;
+        } catch (err) {
+            throw err;
+        }
     }
 }
 
