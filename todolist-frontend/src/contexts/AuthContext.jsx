@@ -5,15 +5,18 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [token, setToken] = useState("");
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true); // ✅ ban đầu là true
 
     useEffect(() => {
         const savedUser = localStorage.getItem("user");
         const savedToken = localStorage.getItem("token");
+
         if (savedUser && savedToken) {
             setUser({ username: savedUser });
             setToken(savedToken);
         }
+
+        setLoading(false); // ✅ hoàn tất kiểm tra storage
     }, []);
 
     const login = (username, token) => {
