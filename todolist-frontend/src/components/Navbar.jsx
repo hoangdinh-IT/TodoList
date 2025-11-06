@@ -99,7 +99,7 @@ const Navbar = ({ setIsSidebarOpen }) => {
             onClick={() => setIsCategoryModal(true)}
             className="bg-gradient-to-r from-purple-100 to-purple-200 hover:from-purple-200 hover:to-purple-300 text-purple-700 font-medium px-4 py-2 rounded-xl shadow-sm hover:shadow-md transition-all duration-200"
           >
-            Quản lý thể loại
+            Quản lý danh mục
           </button>
 
           {/* Avatar Dropdown */}
@@ -196,7 +196,7 @@ const Navbar = ({ setIsSidebarOpen }) => {
                 }}
                 className="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 text-purple-700 font-medium"
               >
-                Quản lý thể loại
+                Quản lý danh mục
               </button>
 
               <button
@@ -227,7 +227,7 @@ const Navbar = ({ setIsSidebarOpen }) => {
         )}
       </AnimatePresence>
 
-      {/* Modal quản lý thể loại / thay đổi mật khẩu */}
+      {/* Modal quản lý danh mục / thay đổi mật khẩu */}
       {isCategoryModal && (
         <CategoryManagementModal onClose={() => setIsCategoryModal(false)} />
       )}

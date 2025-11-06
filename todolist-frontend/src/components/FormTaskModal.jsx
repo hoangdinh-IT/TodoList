@@ -188,7 +188,7 @@ const AddTaskModal = ({ editingTask, categories, onClose }) => {
   {/* Thông báo ngoài select */}
   {(!categories || categories.length === 0) && (
     <p className="text-red-500 mt-1 text-sm">
-      Hiện tại chưa có thể loại nào. Vui lòng thêm thể loại mới tại <br />QUẢN LÝ THỂ LOẠI!
+      Hiện tại chưa có thể loại nào. Vui lòng thêm thể loại mới tại <br />QUẢN LÝ DANH MỤC!
     </p>
   )}
 </div>

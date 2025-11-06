@@ -46,24 +46,24 @@ const CategoryManagementModal = ({ onClose }) => {
   const addCategory = useMutation({
     mutationFn: categoryAPI.create,
     onSuccess: () => {
-      showSnackbar("Thêm thể loại thành công!", "success");
+      showSnackbar("Thêm danh mục thành công!", "success");
       resetForm();
       queryClient.invalidateQueries(["categories"]);
     },
     onError: (err) => {
-      showSnackbar(err?.response?.data?.message || "Thêm thể loại thất bại!", "error");
+      showSnackbar(err?.response?.data?.message || "Thêm danh mục thất bại!", "error");
     },
   });
 
   const updateCategory = useMutation({
     mutationFn: categoryAPI.update,
     onSuccess: () => {
-      showSnackbar("Cập nhật thể loại thành công!", "success");
+      showSnackbar("Cập nhật danh mục thành công!", "success");
       resetForm();
       queryClient.invalidateQueries(["categories"]);
     },
     onError: (err) => {
-      showSnackbar(err?.response?.data?.message || "Cập nhật thể loại thất bại!", "error");
+      showSnackbar(err?.response?.data?.message || "Cập nhật danh mục thất bại!", "error");
     },
   });
 
@@ -83,18 +83,18 @@ const CategoryManagementModal = ({ onClose }) => {
   const deleteCategory = useMutation({
     mutationFn: categoryAPI.delete,
     onSuccess: () => {
-      showSnackbar("Xoá thể loại thành công!", "success");
+      showSnackbar("Xoá danh mục thành công!", "success");
       queryClient.invalidateQueries(["categories"]);
     },
     onError: (err) => {
-      showSnackbar(err?.response?.data?.message || "Xoá thể loại thất bại!", "error");
+      showSnackbar(err?.response?.data?.message || "Xoá danh mục thất bại!", "error");
     },
   });
 
   const handleDelete = (categoryId) => {
     showDialog({
-      title: "XÁC NHẬN XOÁ THỂ LOẠI",
-      message: "Khi bạn xoá thể loại này, tất cả công việc thuộc thể loại cũng sẽ bị xoá vĩnh viễn. Bạn có chắc chắn muốn tiếp tục?",
+      title: "XÁC NHẬN XOÁ DANH MỤC",
+      message: "Khi bạn xoá danh mục này, tất cả công việc thuộc danh mục cũng sẽ bị xoá vĩnh viễn. Bạn có chắc chắn muốn tiếp tục?",
       confirmText: "Xoá",
       cancelText: "Hủy",
       confirmColor: "error",
@@ -143,7 +143,7 @@ const CategoryManagementModal = ({ onClose }) => {
           {/* Header */}
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-semibold text-gray-800 tracking-wide">
-              Quản lý thể loại
+              Quản lý danh mục
             </h2>
             <button
               onClick={onClose}
@@ -161,7 +161,7 @@ const CategoryManagementModal = ({ onClose }) => {
                 ${isOpenFormCategory ? "opacity-50 cursor-not-allowed" : ""}`}
               disabled={isOpenFormCategory}
             >
-              <AiOutlinePlus /> Thêm thể loại
+              <AiOutlinePlus /> Thêm danh mục
             </button>
 
             {isOpenFormCategory && (
@@ -174,7 +174,7 @@ const CategoryManagementModal = ({ onClose }) => {
             )}
           </div>
 
-          {/* Danh sách thể loại */}
+          {/* Danh sách danh mục */}
           {isLoading ? (
             <Spinner />
           ) : (
@@ -193,7 +193,7 @@ const CategoryManagementModal = ({ onClose }) => {
                           type="text"
                           value={newCategory}
                           onChange={handleChange}
-                          placeholder="Nhập tên thể loại..."
+                          placeholder="Nhập tên danh mục..."
                           onKeyDown={(e) =>
                             e.key === "Enter" && handleSubmit(e)
                           }
@@ -209,7 +209,7 @@ const CategoryManagementModal = ({ onClose }) => {
                     )}
                     {categories.length === 0 ? (
                       <li className="text-center text-gray-500 italic py-4 bg-gray-50 rounded-2xl shadow-sm">
-                        Chưa có thể loại nào!
+                        Chưa có danh mục nào!
                       </li>
                     ) : (
                       categories.map((cat, index) => (
