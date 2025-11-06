@@ -65,6 +65,42 @@ const authAPI = {
         } catch (err) {
             throw err;
         }
+    },
+
+    sendOtp: async(username) => {
+        try {
+            const response = await API.post("/api/auth/send-otp", {
+                email: username
+            });
+            return response.data;
+        } catch (err) {
+            throw err;
+        }
+    },
+
+    verifyOtp: async({ username, otp }) => {
+        try {
+            const response = await API.post("/api/auth/verify-otp", {
+                email: username,
+                otp
+            });
+            return response.data;
+        } catch (err) {
+            throw err;
+        }
+    },
+
+    resetPassword: async({ username, otp, newPassword }) => {
+        try {
+            const response = await API.post("/api/auth/reset-password", {
+                email: username,
+                otp,
+                newPassword
+            });
+            return response.data;
+        } catch (err) {
+            throw err;
+        }
     }
 }
 

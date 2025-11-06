@@ -1,53 +1,103 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+
 import { useSnackbar } from "../providers/SnackbarProvider";
 import assets from "../assets/assets";
 import Spinner from "../components/Spinner";
+import { authAPI } from "../services/api";
 
 const ForgotPassword = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [otp, setOtp] = useState("");
+  const [otpAttempts, setOtpAttempts] = useState(0);
   const [newPassword, setNewPassword] = useState("");
-  const [activeStep, setActiveStep] = useState(1); // 1=Email, 2=OTP, 3=Password
+  const [activeStep, setActiveStep] = useState(1); // 1=Username, 2=OTP, 3=Password
   const [loadingStep, setLoadingStep] = useState(0); // Spinner cho từng bước
+
+  const navigate = useNavigate();
   const { showSnackbar } = useSnackbar();
 
-  const handleEmailConfirm = () => {
-    if (!email.trim()) return showSnackbar("Vui lòng nhập email!", "warning");
+  const sendOtp = useMutation({
+    mutationFn: (username) => authAPI.sendOtp(username),
+    onSuccess: () => {
+      setLoadingStep(1);
+      setTimeout(() => {
+        setLoadingStep(0);
+        setActiveStep(2);
+        showSnackbar("Email xác nhận thành công! Vui lòng nhập mã OTP", "success");
+      }, 1000);
+    },
+    onError: (err) => {
+      showSnackbar(err?.response?.data?.message || "Email xác nhận thất bại!", "error");
+    }
+  });
 
-    setLoadingStep(1);
-    setTimeout(() => {
-      setLoadingStep(0);
-      setActiveStep(2); // chuyển sang OTP
-      showSnackbar("Email xác nhận thành công! Vui lòng nhập mã OTP", "success");
-    }, 1000);
+  const handleEmailConfirm = () => {
+    if (!username.trim()) return showSnackbar("Vui lòng nhập email!", "warning");
+
+    sendOtp.mutate(username);
   };
+
+  const verityOtp = useMutation({
+    mutationFn: ({ username, otp }) => authAPI.verifyOtp({ username, otp }),
+    onSuccess: () => {
+      setLoadingStep(2);
+      setTimeout(() => {
+        setLoadingStep(0);
+        setActiveStep(3); // chuyển sang mật khẩu
+        showSnackbar("OTP xác nhận thành công! Vui lòng nhập mật khẩu mới", "success");
+      }, 1000);
+    },
+    onError: () => {
+      const attempts = otpAttempts + 1;
+      setOtpAttempts(attempts);
+
+      if (attempts >= 3) {
+        showSnackbar("Bạn đã nhập OTP quá 3 lần! Vui lòng đăng nhập lại.", "error");
+        // reset form
+        setUsername("");
+        setOtp("");
+        setActiveStep(1);
+        setOtpAttempts(0);
+        navigate("/login");
+      } else {
+        showSnackbar(`OTP không đúng! Bạn còn ${3 - attempts} lần thử`, "warning");
+      }
+    }
+  })
 
   const handleOtpConfirm = () => {
     if (!otp.trim()) return showSnackbar("Vui lòng nhập OTP!", "warning");
 
-    setLoadingStep(2);
-    setTimeout(() => {
-      setLoadingStep(0);
-      setActiveStep(3); // chuyển sang mật khẩu
-      showSnackbar("OTP xác nhận thành công! Vui lòng nhập mật khẩu mới", "success");
-    }, 1000);
+    verityOtp.mutate({ username, otp });
   };
+
+  const resetPassword = useMutation({
+    mutationFn: ({ username, otp, newPassword }) => authAPI.resetPassword({ username, otp, newPassword }),
+    onSuccess: () => {
+      setLoadingStep(3);
+      setTimeout(() => {
+        setLoadingStep(0);
+        showSnackbar("Đặt lại mật khẩu thành công! Vui lòng đăng nhập lại!", "success");
+        setActiveStep(1);
+        setUsername("");
+        setOtp("");
+        setNewPassword("");
+        navigate("/login");
+      }, 1000);
+    },
+    onError: (err) => {
+      showSnackbar(err?.response?.data?.message || "Đặt lại mật khẩu thất bại!", "error");
+    }
+  })
 
   const handlePasswordConfirm = () => {
     if (!newPassword.trim())
       return showSnackbar("Vui lòng nhập mật khẩu mới!", "warning");
 
-    setLoadingStep(3);
-    setTimeout(() => {
-      setLoadingStep(0);
-      showSnackbar("Đặt lại mật khẩu thành công!", "success");
-      // Reset form
-      setActiveStep(1);
-      setEmail("");
-      setOtp("");
-      setNewPassword("");
-    }, 1000);
+    resetPassword.mutate({ username, otp, newPassword });
   };
 
   return (
@@ -79,12 +129,18 @@ const ForgotPassword = () => {
         </h2>
 
         {/* Email */}
-        <div className="flex items-center gap-2">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (activeStep === 1) handleEmailConfirm();
+          }}
+          className="flex items-center gap-2"
+        >
           <input
             type="email"
             placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             disabled={activeStep !== 1}
             className={`flex-1 px-4 py-2 rounded-lg border border-white/30 focus:outline-none focus:ring-2 placeholder-gray-300 ${
               activeStep === 1
@@ -93,7 +149,7 @@ const ForgotPassword = () => {
             } transition`}
           />
           <button
-            onClick={handleEmailConfirm}
+            type="submit"
             disabled={activeStep !== 1}
             className={`px-3 py-2 rounded-lg font-semibold text-white ${
               activeStep === 1
@@ -103,10 +159,16 @@ const ForgotPassword = () => {
           >
             {loadingStep === 1 ? <Spinner /> : "Xác nhận"}
           </button>
-        </div>
+        </form>
 
         {/* OTP */}
-        <div className="flex items-center gap-2">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (activeStep === 2) handleOtpConfirm();
+          }}
+          className="flex items-center gap-2"
+        >
           <input
             type="text"
             placeholder="OTP"
@@ -120,7 +182,7 @@ const ForgotPassword = () => {
             } transition`}
           />
           <button
-            onClick={handleOtpConfirm}
+            type="submit"
             disabled={activeStep !== 2}
             className={`px-3 py-2 rounded-lg font-semibold text-white ${
               activeStep === 2
@@ -130,10 +192,16 @@ const ForgotPassword = () => {
           >
             {loadingStep === 2 ? <Spinner /> : "Xác nhận"}
           </button>
-        </div>
+        </form>
 
-        {/* Mật khẩu */}
-        <div className="flex items-center gap-2">
+        {/* Password */}
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (activeStep === 3) handlePasswordConfirm();
+          }}
+          className="flex items-center gap-2"
+        >
           <input
             type="password"
             placeholder="Mật khẩu mới"
@@ -147,7 +215,7 @@ const ForgotPassword = () => {
             } transition`}
           />
           <button
-            onClick={handlePasswordConfirm}
+            type="submit"
             disabled={activeStep !== 3}
             className={`px-3 py-2 rounded-lg font-semibold text-white ${
               activeStep === 3
@@ -157,7 +225,7 @@ const ForgotPassword = () => {
           >
             {loadingStep === 3 ? <Spinner /> : "Xác nhận"}
           </button>
-        </div>
+        </form>
       </motion.div>
     </div>
   );
