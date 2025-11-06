@@ -75,7 +75,7 @@ const ForgotPassword = () => {
   };
 
   const resetPassword = useMutation({
-    mutationFn: ({ username, otp, newPassword }) => authAPI.resetPassword({ username, otp, newPassword }),
+    mutationFn: ({ username, newPassword }) => authAPI.resetPassword({ username, newPassword }),
     onSuccess: () => {
       setLoadingStep(3);
       setTimeout(() => {
@@ -97,7 +97,7 @@ const ForgotPassword = () => {
     if (!newPassword.trim())
       return showSnackbar("Vui lòng nhập mật khẩu mới!", "warning");
 
-    resetPassword.mutate({ username, otp, newPassword });
+    resetPassword.mutate({ username, newPassword });
   };
 
   return (

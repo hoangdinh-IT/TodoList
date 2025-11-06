@@ -3,7 +3,7 @@ import crypto from "crypto";
 import User from "../models/user.model.js";
 import OtpModel from "../models/otp.model.js";
 import { JWT_SECRET } from "../config.js";
-import { transporter } from "../email.js";
+import { sendEmail } from "../email.js";
 
 const register = async (req, res) => {
     try {
@@ -75,126 +75,214 @@ const hashOtp = (otp) => {
   return crypto.createHash("sha256").update(String(otp)).digest("hex");
 };
 
+// const sendOtp = async (req, res) => {
+//   try {
+//     const { email } = req.body;
+
+//     const user = await User.findOne({ username: email });
+//     if (!user) {
+//       return res.status(404).json({ message: "Người dùng không tồn tại" });
+//     }
+
+//     // Optional: check rate-limit per email (implement separately), or delete previous OTPs
+//     await OtpModel.deleteMany({ email });
+
+//     const otp = Math.floor(100000 + Math.random() * 900000); // 6-digit
+//     const otpHash = hashOtp(otp);
+//     const expiresAt = Date.now() + 5 * 60 * 1000; // 5 minutes
+
+//     await OtpModel.create({ email, otpHash, expiresAt });
+
+//     // send email
+//     const mailOptions = {
+//       from: `"TodoList" <${process.env.EMAIL_USER}>`,
+//       to: email,
+//       subject: "🔑 Mã OTP khôi phục mật khẩu",
+//       html: `
+//         <div style="font-family: 'Helvetica Neue', Arial, sans-serif; background:#f9f9f9; padding: 20px;">
+//           <div style="max-width: 480px; margin: auto; background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+            
+//             <!-- Header -->
+//             <div style="background: #6C63FF; padding: 20px; text-align: center; color: white;">
+//               <h2 style="margin:0; font-size: 22px;">TodoList</h2>
+//             </div>
+
+//             <!-- Body -->
+//             <div style="padding: 25px; color: #333; text-align: center;">
+//               <p style="font-size: 16px; margin-bottom: 20px;">Bạn đã yêu cầu đổi mật khẩu. Vui lòng sử dụng mã OTP dưới đây:</p>
+              
+//               <div style="display: inline-block; font-size: 28px; font-weight: 600; letter-spacing: 4px; padding: 12px 20px; background: #f0f0f0; border-radius: 8px; color: #6C63FF;">
+//                 ${otp}
+//               </div>
+
+//               <p style="font-size: 14px; color: #666; margin-top: 20px;">Mã OTP có hiệu lực trong 5 phút.<br/>Nếu bạn không yêu cầu, vui lòng bỏ qua email này.</p>
+//             </div>
+
+//             <!-- Footer -->
+//             <div style="background: #f9f9f9; padding: 12px; text-align: center; font-size: 12px; color: #aaa;">
+//               © 2025 TodoList. Bảo lưu mọi quyền.
+//             </div>
+
+//           </div>
+//         </div>
+//       `,
+//     };
+
+//     await transporter.sendMail(mailOptions);
+
+//     return res.json({ success: true, message: "OTP đã được gửi về email" });
+//   } catch (err) {
+//     console.error("sendOtp err:", err);
+//     return res.status(500).json({ message: "Lỗi server", error: err.message });
+//   }
+// };
+
+// const verifyOtp = async (req, res) => {
+//   try {
+//     const { email, otp } = req.body;
+
+//     const record = await OtpModel.findOne({ email }).sort({ createdAt: -1 });
+//     if (!record) return res.status(400).json({ message: "OTP không tồn tại hoặc đã hết hạn" });
+
+//     if (record.expiresAt < Date.now()) {
+//       await OtpModel.deleteMany({ email });
+//       return res.status(400).json({ message: "OTP đã hết hạn" });
+//     }
+
+//     const otpHash = hashOtp(otp);
+//     if (otpHash !== record.otpHash) {
+//       return res.status(400).json();
+//     }
+
+//     // return success — frontend can proceed to reset password
+//     return res.json({ success: true, message: "OTP hợp lệ" });
+//   } catch (err) {
+//     console.error("verifyOtp err:", err);
+//     return res.status(500).json({ message: "Lỗi server", error: err.message });
+//   }
+// };
+
+// const resetPassword = async (req, res) => {
+//   try {
+//     const { email, otp, newPassword } = req.body;
+
+//     const record = await OtpModel.findOne({ email }).sort({ createdAt: -1 });
+//     if (!record) return res.status(400).json({ message: "OTP không tồn tại hoặc đã hết hạn" });
+
+//     if (record.expiresAt < Date.now()) {
+//       await OtpModel.deleteMany({ email });
+//       return res.status(400).json({ message: "OTP đã hết hạn" });
+//     }
+
+//     const otpHash = hashOtp(otp);
+//     if (otpHash !== record.otpHash) {
+//       return res.status(400).json({ message: "OTP không đúng" });
+//     }
+
+//     // Find user and update password
+//     const user = await User.findOne({ username: email });
+//     if (!user) {
+//       return res.status(404).json({ message: "Người dùng không tồn tại" });
+//     }
+
+//     user.password = newPassword; // userSchema pre-save sẽ hash
+//     await user.save();
+
+//     // delete otp records
+//     await OtpModel.deleteMany({ email });
+
+//     return res.json({ success: true, message: "Đổi mật khẩu thành công" });
+//   } catch (err) {
+//     console.error("resetPassword err:", err);
+//     return res.status(500).json({ message: "Lỗi server", error: err.message });
+//   }
+// };
+
 const sendOtp = async (req, res) => {
   try {
     const { email } = req.body;
+    if (!email) return res.status(400).json({ message: "Email is required" });
 
-    const user = await User.findOne({ username: email });
-    if (!user) {
-      return res.status(404).json({ message: "Người dùng không tồn tại" });
+    const user = await User.findOne({ username: email }) || await User.findOne({ email });
+    if (!user) return res.status(404).json({ message: "Người dùng không tồn tại" });
+
+    const recentCount = await OtpModel.countDocuments({
+      email,
+      createdAt: { $gt: new Date(Date.now() - 15 * 60 * 1000) }
+    });
+    if (recentCount >= 3) {
+      return res.status(429).json({ message: "Vượt quá giới hạn gửi OTP. Vui lòng thử lại sau." });
     }
 
-    // Optional: check rate-limit per email (implement separately), or delete previous OTPs
     await OtpModel.deleteMany({ email });
 
-    const otp = Math.floor(100000 + Math.random() * 900000); // 6-digit
+    const otp = Math.floor(100000 + Math.random() * 900000);
     const otpHash = hashOtp(otp);
-    const expiresAt = Date.now() + 5 * 60 * 1000; // 5 minutes
+    await OtpModel.create({ email, otpHash });
 
-    await OtpModel.create({ email, otpHash, expiresAt });
+    const html = `
+      <h2>Mã OTP xác nhận của bạn</h2>
+      <p>Nhập mã bên dưới để tiếp tục:</p>
+      <h1 style="letter-spacing:6px">${otp}</h1>
+      <p>Mã có hiệu lực trong 5 phút.</p>
+    `;
 
-    // send email
-    const mailOptions = {
-      from: `"TodoList" <${process.env.EMAIL_USER}>`,
+    await sendEmail({
       to: email,
       subject: "🔑 Mã OTP khôi phục mật khẩu",
-      html: `
-        <div style="font-family: 'Helvetica Neue', Arial, sans-serif; background:#f9f9f9; padding: 20px;">
-          <div style="max-width: 480px; margin: auto; background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-            
-            <!-- Header -->
-            <div style="background: #6C63FF; padding: 20px; text-align: center; color: white;">
-              <h2 style="margin:0; font-size: 22px;">TodoList</h2>
-            </div>
-
-            <!-- Body -->
-            <div style="padding: 25px; color: #333; text-align: center;">
-              <p style="font-size: 16px; margin-bottom: 20px;">Bạn đã yêu cầu đổi mật khẩu. Vui lòng sử dụng mã OTP dưới đây:</p>
-              
-              <div style="display: inline-block; font-size: 28px; font-weight: 600; letter-spacing: 4px; padding: 12px 20px; background: #f0f0f0; border-radius: 8px; color: #6C63FF;">
-                ${otp}
-              </div>
-
-              <p style="font-size: 14px; color: #666; margin-top: 20px;">Mã OTP có hiệu lực trong 5 phút.<br/>Nếu bạn không yêu cầu, vui lòng bỏ qua email này.</p>
-            </div>
-
-            <!-- Footer -->
-            <div style="background: #f9f9f9; padding: 12px; text-align: center; font-size: 12px; color: #aaa;">
-              © 2025 TodoList. Bảo lưu mọi quyền.
-            </div>
-
-          </div>
-        </div>
-      `,
-    };
-
-    await transporter.sendMail(mailOptions);
+      html,
+    });
 
     return res.json({ success: true, message: "OTP đã được gửi về email" });
   } catch (err) {
-    console.error("sendOtp err:", err);
-    return res.status(500).json({ message: "Lỗi server", error: err.message });
+    console.error("sendOtp err:", err?.response?.data || err?.message || err);
+    return res.status(500).json({ message: "Lỗi server khi gửi OTP" });
   }
 };
 
 const verifyOtp = async (req, res) => {
   try {
     const { email, otp } = req.body;
+    if (!email || !otp) return res.status(400).json({ message: "Thiếu email hoặc OTP" });
 
     const record = await OtpModel.findOne({ email }).sort({ createdAt: -1 });
     if (!record) return res.status(400).json({ message: "OTP không tồn tại hoặc đã hết hạn" });
 
-    if (record.expiresAt < Date.now()) {
-      await OtpModel.deleteMany({ email });
-      return res.status(400).json({ message: "OTP đã hết hạn" });
-    }
-
     const otpHash = hashOtp(otp);
     if (otpHash !== record.otpHash) {
-      return res.status(400).json();
+      // optionally increment attempts:
+      record.attempts = (record.attempts || 0) + 1;
+      await record.save();
+      return res.status(400).json({ message: "OTP không đúng" });
     }
 
-    // return success — frontend can proceed to reset password
+    // Verified successfully -> delete records (so OTP cannot be reused)
+    await OtpModel.deleteMany({ email });
     return res.json({ success: true, message: "OTP hợp lệ" });
   } catch (err) {
     console.error("verifyOtp err:", err);
-    return res.status(500).json({ message: "Lỗi server", error: err.message });
+    return res.status(500).json({ message: "Lỗi server", error: err?.message || String(err) });
   }
 };
 
 const resetPassword = async (req, res) => {
   try {
-    const { email, otp, newPassword } = req.body;
-
-    const record = await OtpModel.findOne({ email }).sort({ createdAt: -1 });
-    if (!record) return res.status(400).json({ message: "OTP không tồn tại hoặc đã hết hạn" });
-
-    if (record.expiresAt < Date.now()) {
-      await OtpModel.deleteMany({ email });
-      return res.status(400).json({ message: "OTP đã hết hạn" });
-    }
-
-    const otpHash = hashOtp(otp);
-    if (otpHash !== record.otpHash) {
-      return res.status(400).json({ message: "OTP không đúng" });
-    }
+    const { email, newPassword } = req.body;
 
     // Find user and update password
-    const user = await User.findOne({ username: email });
-    if (!user) {
-      return res.status(404).json({ message: "Người dùng không tồn tại" });
-    }
+    const user = await User.findOne({ username: email }) || await User.findOne({ email });
+    if (!user) return res.status(404).json({ message: "Người dùng không tồn tại" });
 
-    user.password = newPassword; // userSchema pre-save sẽ hash
+    user.password = newPassword; // giả định pre-save hook hash password
     await user.save();
 
-    // delete otp records
+    // remove OTP docs
     await OtpModel.deleteMany({ email });
 
     return res.json({ success: true, message: "Đổi mật khẩu thành công" });
   } catch (err) {
     console.error("resetPassword err:", err);
-    return res.status(500).json({ message: "Lỗi server", error: err.message });
+    return res.status(500).json({ message: "Lỗi server", error: err?.message || String(err) });
   }
 };
 

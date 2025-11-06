@@ -90,11 +90,10 @@ const authAPI = {
         }
     },
 
-    resetPassword: async({ username, otp, newPassword }) => {
+    resetPassword: async({ username, newPassword }) => {
         try {
             const response = await API.post("/api/auth/reset-password", {
                 email: username,
-                otp,
                 newPassword
             });
             return response.data;

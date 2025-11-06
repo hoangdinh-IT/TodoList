@@ -38,7 +38,7 @@ const Login = () => {
       navigate("/dashboard", { replace: true });
     },
     onError: (err) => {
-      showSnackbar(err.response?.data?.message || "Đăng nhập thất bại!", "error");
+      showSnackbar(err.response?.data?.message || "Email hoặc mật khẩu không chính xác!", "error");
     },
   });
 
