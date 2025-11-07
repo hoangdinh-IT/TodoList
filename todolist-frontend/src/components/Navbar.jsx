@@ -106,10 +106,11 @@ const Navbar = ({ setIsSidebarOpen }) => {
 
           <button
             onClick={() => setIsStatisticModalOpen(true)}
-            className="bg-gradient-to-r from-purple-100 to-purple-200 hover:from-purple-200 hover:to-purple-300 text-purple-700 font-medium px-4 py-2 rounded-xl shadow-sm hover:shadow-md transition-all duration-200"
+            className="bg-gradient-to-r from-orange-100 to-orange-200 hover:from-orange-200 hover:to-orange-300 text-orange-700 font-medium px-4 py-2 rounded-xl shadow-sm hover:shadow-md transition-all duration-200"
           >
             Thống kê
           </button>
+
 
           {/* Avatar Dropdown */}
           <div className="relative" ref={dropdownRef}>
@@ -210,10 +211,20 @@ const Navbar = ({ setIsSidebarOpen }) => {
 
               <button
                 onClick={() => {
+                  setIsStatisticModalOpen(true);
+                  setIsMobileMenuOpen(false);
+                }}
+                className="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 text-orange-700 font-medium"
+              >
+                Thống kê
+              </button>
+
+              <button
+                onClick={() => {
                   setIsResetPasswordModalOpen(true);
                   setIsMobileMenuOpen(false);
                 }}
-                className="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 text-purple-700 font-medium"
+                className="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 text-black font-medium"
               >
                 Đổi mật khẩu
               </button>
