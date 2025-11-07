@@ -26,7 +26,7 @@ const ForgotPassword = () => {
       setTimeout(() => {
         setLoadingStep(0);
         setActiveStep(2);
-        showSnackbar("Email xác nhận thành công! Vui lòng nhập mã OTP", "success");
+        showSnackbar("Email xác nhận thành công! Vui lòng nhập mã OTP xem trong thư rác!", "success");
       }, 1000);
     },
     onError: (err) => {

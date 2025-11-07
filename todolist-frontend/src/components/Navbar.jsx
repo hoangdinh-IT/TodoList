@@ -18,7 +18,7 @@ const Navbar = ({ setIsSidebarOpen }) => {
   const { showSnackbar } = useSnackbar();
   const navigate = useNavigate();
 
-  const [isCategoryModal, setIsCategoryModal] = useState(false);
+  const [isCategoryManagementModal, setIsCategoryManagementModal] = useState(false);
   const [isResetPasswordModal, setIsResetPasswordModal] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -96,7 +96,7 @@ const Navbar = ({ setIsSidebarOpen }) => {
         {/* Desktop Buttons */}
         <div className="hidden md:flex items-center gap-4 relative">
           <button
-            onClick={() => setIsCategoryModal(true)}
+            onClick={() => setIsCategoryManagementModal(true)}
             className="bg-gradient-to-r from-purple-100 to-purple-200 hover:from-purple-200 hover:to-purple-300 text-purple-700 font-medium px-4 py-2 rounded-xl shadow-sm hover:shadow-md transition-all duration-200"
           >
             Quản lý danh mục
@@ -191,7 +191,7 @@ const Navbar = ({ setIsSidebarOpen }) => {
 
               <button
                 onClick={() => {
-                  setIsCategoryModal(true);
+                  setIsCategoryManagementModal(true);
                   setIsMobileMenuOpen(false);
                 }}
                 className="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 text-purple-700 font-medium"
@@ -228,8 +228,8 @@ const Navbar = ({ setIsSidebarOpen }) => {
       </AnimatePresence>
 
       {/* Modal quản lý danh mục / thay đổi mật khẩu */}
-      {isCategoryModal && (
-        <CategoryManagementModal onClose={() => setIsCategoryModal(false)} />
+      {isCategoryManagementModal && (
+        <CategoryManagementModal onClose={() => setIsCategoryManagementModal(false)} />
       )}
 
       {isResetPasswordModal && (

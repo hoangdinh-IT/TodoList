@@ -1,0 +1,9 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Quan trọng: SPA redirect (fix 404 khi refresh)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
