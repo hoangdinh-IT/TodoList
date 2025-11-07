@@ -9,6 +9,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { useDialog } from "../providers/DialogProvider";
 import { useSnackbar } from "../providers/SnackbarProvider";
 import CategoryManagementModal from "./CategoryManagementModal";
+import StatisticModal from "./StatisticModal";
 import ChangePasswordModal from "./ChangePasswordModal";
 import { authAPI } from "../services/api";
 
@@ -18,8 +19,9 @@ const Navbar = ({ setIsSidebarOpen }) => {
   const { showSnackbar } = useSnackbar();
   const navigate = useNavigate();
 
-  const [isCategoryManagementModal, setIsCategoryManagementModal] = useState(false);
-  const [isResetPasswordModal, setIsResetPasswordModal] = useState(false);
+  const [isCategoryManagementModalOpen, setIsCategoryManagementModalOpen] = useState(false);
+  const [isStatisticModalOpen, setIsStatisticModalOpen] = useState(false);
+  const [isResetPasswordModalOpen, setIsResetPasswordModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -96,10 +98,17 @@ const Navbar = ({ setIsSidebarOpen }) => {
         {/* Desktop Buttons */}
         <div className="hidden md:flex items-center gap-4 relative">
           <button
-            onClick={() => setIsCategoryManagementModal(true)}
+            onClick={() => setIsCategoryManagementModalOpen(true)}
             className="bg-gradient-to-r from-purple-100 to-purple-200 hover:from-purple-200 hover:to-purple-300 text-purple-700 font-medium px-4 py-2 rounded-xl shadow-sm hover:shadow-md transition-all duration-200"
           >
             Quản lý danh mục
+          </button>
+
+          <button
+            onClick={() => setIsStatisticModalOpen(true)}
+            className="bg-gradient-to-r from-purple-100 to-purple-200 hover:from-purple-200 hover:to-purple-300 text-purple-700 font-medium px-4 py-2 rounded-xl shadow-sm hover:shadow-md transition-all duration-200"
+          >
+            Thống kê
           </button>
 
           {/* Avatar Dropdown */}
@@ -126,7 +135,7 @@ const Navbar = ({ setIsSidebarOpen }) => {
                 >
                   <button
                     onClick={() => {
-                      setIsResetPasswordModal(true); // modal thay đổi mật khẩu
+                      setIsResetPasswordModalOpen(true); // modal thay đổi mật khẩu
                       setIsDropdownOpen(false);
                     }}
                     className="px-4 py-2 text-left hover:bg-gray-100 transition"
@@ -191,7 +200,7 @@ const Navbar = ({ setIsSidebarOpen }) => {
 
               <button
                 onClick={() => {
-                  setIsCategoryManagementModal(true);
+                  setIsCategoryManagementModalOpen(true);
                   setIsMobileMenuOpen(false);
                 }}
                 className="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 text-purple-700 font-medium"
@@ -201,7 +210,7 @@ const Navbar = ({ setIsSidebarOpen }) => {
 
               <button
                 onClick={() => {
-                  setIsResetPasswordModal(true);
+                  setIsResetPasswordModalOpen(true);
                   setIsMobileMenuOpen(false);
                 }}
                 className="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100 text-purple-700 font-medium"
@@ -228,14 +237,18 @@ const Navbar = ({ setIsSidebarOpen }) => {
       </AnimatePresence>
 
       {/* Modal quản lý danh mục / thay đổi mật khẩu */}
-      {isCategoryManagementModal && (
-        <CategoryManagementModal onClose={() => setIsCategoryManagementModal(false)} />
+      {isCategoryManagementModalOpen && (
+        <CategoryManagementModal onClose={() => setIsCategoryManagementModalOpen(false)} />
       )}
 
-      {isResetPasswordModal && (
+      {isStatisticModalOpen && (
+        <StatisticModal onClose={() => setIsStatisticModalOpen(false)} />
+      )}
+
+      {isResetPasswordModalOpen && (
         <ChangePasswordModal 
           onSubmit={({ oldPassword, newPassword }) => handleChangePassword({ username, oldPassword, newPassword })}
-          onClose={() => setIsResetPasswordModal(false)} 
+          onClose={() => setIsResetPasswordModalOpen(false)} 
         />
       )}
     </>

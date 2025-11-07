@@ -164,34 +164,34 @@ const AddTaskModal = ({ editingTask, categories, onClose }) => {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Thể loại</label>
               <div>
-  <select
-    name="categoryId"
-    value={formData.categoryId}
-    onChange={handleChange}
-    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-gray-800 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-  >
-    <option value="" disabled>
-      Chọn thể loại
-    </option>
+                <select
+                  name="categoryId"
+                  value={formData.categoryId}
+                  onChange={handleChange}
+                  className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-gray-800 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                >
+                  <option value="" disabled>
+                    Chọn thể loại
+                  </option>
 
-    {categories?.length > 0 ? (
-      categories.map((cat) => (
-        <option key={cat._id} value={cat._id}>
-          {cat.title}
-        </option>
-      ))
-    ) : (
-      <option disabled>Chưa có thể loại</option>
-    )}
-  </select>
+                  {categories?.length > 0 ? (
+                    categories.map((cat) => (
+                      <option key={cat._id} value={cat._id}>
+                        {cat.title}
+                      </option>
+                    ))
+                  ) : (
+                    <option disabled>Chưa có thể loại</option>
+                  )}
+                </select>
 
-  {/* Thông báo ngoài select */}
-  {(!categories || categories.length === 0) && (
-    <p className="text-red-500 mt-1 text-sm">
-      Hiện tại chưa có thể loại nào. Vui lòng thêm thể loại mới tại <br />QUẢN LÝ DANH MỤC!
-    </p>
-  )}
-</div>
+                {/* Thông báo ngoài select */}
+                {(!categories || categories.length === 0) && (
+                  <p className="text-red-500 mt-1 text-sm">
+                    Hiện tại chưa có thể loại nào. Vui lòng thêm thể loại mới tại <br />QUẢN LÝ DANH MỤC!
+                  </p>
+                )}
+              </div>
 
             </div>
 
