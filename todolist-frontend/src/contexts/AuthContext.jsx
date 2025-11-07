@@ -8,8 +8,8 @@ const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true); // ✅ ban đầu là true
 
     useEffect(() => {
-        const savedUser = localStorage.getItem("user");
-        const savedToken = localStorage.getItem("token");
+        const savedUser = sessionStorage.getItem("user");
+        const savedToken = sessionStorage.getItem("token");
 
         if (savedUser && savedToken) {
             setUser({ username: savedUser });
@@ -20,8 +20,8 @@ const AuthProvider = ({ children }) => {
     }, []);
 
     const login = (username, token) => {
-        localStorage.setItem("user", username);
-        localStorage.setItem("token", token);
+        sessionStorage.setItem("user", username);
+        sessionStorage.setItem("token", token);
         setUser({ username });
         setToken(token);
     }
@@ -29,8 +29,8 @@ const AuthProvider = ({ children }) => {
     const logout = () => {
         setUser(null);
         setToken("");
-        localStorage.removeItem("user");
-        localStorage.removeItem("token");
+        sessionStorage.removeItem("user");
+        sessionStorage.removeItem("token");
     }
 
     return (
