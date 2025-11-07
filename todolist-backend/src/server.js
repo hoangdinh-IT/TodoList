@@ -6,12 +6,14 @@ import { MONGO_URI, PORT } from "./config.js";
 import authRoutes from "./routes/auth.route.js";
 import taskRoutes from "./routes/task.route.js";
 import categoryRoutes from "./routes/category.route.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 
 const allowedOrigins = [
-  // 'https://todolist-rkait.vercel.app',  // URL FE Vercel của bạn
-  'https://todolist-rkait.netlify.app',  // URL FE Vercel của bạn
+  // 'https://todolist-rkait.vercel.app',  // URL FE Vercel 
+  process.env.FRONTEND_URL,  // URL FE Netlify 
   'http://localhost:5173'               // Local dev (Vite default port)
 ];
 
