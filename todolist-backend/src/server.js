@@ -13,7 +13,7 @@ const app = express();
 
 const allowedOrigins = [
   // 'https://todolist-rkait.vercel.app',  // URL FE Vercel 
-  process.env.FRONTEND_URL,  // URL FE Netlify 
+  process.env.FRONTEND_URL,                // URL FE Netlify 
   'http://localhost:5173'               // Local dev (Vite default port)
 ];
 
