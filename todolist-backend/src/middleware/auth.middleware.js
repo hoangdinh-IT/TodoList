@@ -10,8 +10,6 @@ const protect = async (req, res, next) => {
       token = req.headers.authorization.split(" ")[1]; // Lấy phần sau "Bearer"
       const decoded = jwt.verify(token, JWT_SECRET);
 
-      console.log("decoded:", decoded);
-
       req.user = await User.findById(decoded.id).select("-password");
 
       next();
