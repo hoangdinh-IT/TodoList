@@ -5,7 +5,7 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [token, setToken] = useState("");
-    const [loading, setLoading] = useState(true); // ✅ ban đầu là true
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const savedUser = sessionStorage.getItem("user");
@@ -16,7 +16,7 @@ const AuthProvider = ({ children }) => {
             setToken(savedToken);
         }
 
-        setLoading(false); // ✅ hoàn tất kiểm tra storage
+        setLoading(false);
     }, []);
 
     const login = (username, token) => {

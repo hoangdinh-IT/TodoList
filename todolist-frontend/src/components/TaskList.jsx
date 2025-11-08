@@ -1,6 +1,7 @@
 import React from "react";
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import { format } from "date-fns";
+import { motion } from "framer-motion";
 
 const TaskList = ({ tasks, categories, onToggleComplete, onEdit, onDelete }) => {
   const getCategory = (task) => {
@@ -9,83 +10,128 @@ const TaskList = ({ tasks, categories, onToggleComplete, onEdit, onDelete }) => 
     return category ? category.title : "Không có";
   };
 
-  return tasks.length === 0 ? (
-    <div className="text-center text-gray-500 italic py-10 bg-white rounded-xl shadow-inner border border-gray-100 w-full">
-      Không có công việc nào!
-    </div>
-  ) : (
-    <div className="bg-white rounded-3xl shadow-lg p-4 sm:p-6">
-      {/* Header row */}
-      <div className="hidden md:grid grid-cols-[1fr_150px_150px_120px] px-4 py-2 text-sm font-semibold text-gray-500 mb-2">
-        <span className="text-left px-7">Công việc</span>
+  if (tasks.length === 0) {
+    return (
+      <div className="text-center text-gray-500 italic py-10 bg-white rounded-3xl shadow-inner border border-gray-100 w-full">
+        Không có công việc nào!
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-white rounded-3xl shadow-lg p-4 sm:p-6 border border-gray-100">
+      {/* Header */}
+      <div className="hidden md:grid grid-cols-[1fr_120px_120px_120px_120px] px-6 py-2 text-sm font-semibold text-gray-500 mb-3">
+        <span className="text-left">Công việc</span>
         <span className="text-center">Ngày hết hạn</span>
         <span className="text-center">Thể loại</span>
+        <span className="text-center">Ưu tiên</span>
         <span className="text-center">Thao tác</span>
       </div>
 
-      <ul className="flex flex-col gap-4">
-        {tasks.map((task) => (
-          <div key={task._id} className="flex items-start gap-3 sm:items-center">
-            {/* Checkbox */}
-            <input
-              type="checkbox"
-              checked={task.completed}
-              onChange={() => onToggleComplete(task._id, !task.completed)}
-              className="h-5 w-5 accent-green-500 cursor-pointer mt-2 sm:mt-0"
-              title={task.completed ? "Đánh dấu chưa hoàn thành" : "Đánh dấu hoàn thành"}
-            />
-
-            {/* Task content */}
-            <li className="flex flex-col md:grid md:grid-cols-[1fr_150px_150px_120px] w-full px-4 py-3 rounded-2xl bg-gray-50 hover:bg-gray-100 shadow-sm hover:shadow-md transition-all duration-200">
-              {/* Tên + mô tả */}
-              <div className="min-w-0">
-                <div
-                  className={`font-medium break-words whitespace-normal ${
-                    task.completed ? "text-gray-500 line-through" : "text-gray-800"
+      {/* Task list */}
+      <ul className="flex flex-col gap-3">
+        {tasks.map((task, index) => (
+          <motion.li
+            key={task._id}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.05 }}
+            className={`flex flex-col md:grid md:grid-cols-[1fr_120px_120px_120px_120px] items-center w-full px-6 py-4 rounded-2xl border transition-all duration-300
+              ${
+                task.completed
+                  ? "bg-gray-50 border-gray-200"
+                  : "bg-gradient-to-r from-blue-50 via-white to-blue-50 border-gray-100 hover:shadow-md hover:scale-[1.01]"
+              }`}
+          >
+            {/* Checkbox + Title */}
+            <div className="flex items-start gap-3">
+              <input
+                type="checkbox"
+                checked={task.completed}
+                onChange={() => onToggleComplete(task._id, !task.completed)}
+                className="mt-1 h-5 w-5 accent-blue-500 cursor-pointer transition-transform hover:scale-110"
+                title={task.completed ? "Đánh dấu chưa hoàn thành" : "Đánh dấu hoàn thành"}
+              />
+              <div className="flex flex-col">
+                <span
+                  className={`font-medium text-base ${
+                    task.completed
+                      ? "text-gray-400 line-through"
+                      : "text-gray-800"
                   }`}
                 >
                   {task.title}
-                </div>
-                {task.description && (
-                  <div className="text-sm text-gray-500 mt-1 break-words whitespace-normal overflow-hidden text-ellipsis">
-                    {task.description}
-                  </div>
-                )}
-              </div>
-
-              {/* Deadline */}
-              <div className="text-center text-gray-700 font-medium mt-2 md:mt-0">
-                {task.deadline ? (
-                  format(new Date(task.deadline), "dd/MM/yyyy")
-                ) : (
-                  <span className="italic text-gray-400">Không có</span>
-                )}
-              </div>
-
-              {/* Category */}
-              <div className="flex justify-center mt-2 md:mt-0">
-                <span className="inline-block px-3 py-0.5 rounded-full text-sm font-semibold text-pink-800">
-                  {getCategory(task)}
                 </span>
+                {task.description && (
+                  <span className="text-sm text-gray-500 mt-0.5 break-words whitespace-normal">
+                    {task.description}
+                  </span>
+                )}
               </div>
+            </div>
 
-              {/* Actions */}
-              <div className="flex justify-center gap-3 mt-2 md:mt-0">
-                <button
-                  onClick={() => onEdit(task)}
-                  className="text-blue-500 hover:text-blue-600 transition"
+            {/* Deadline */}
+            <div className="text-center text-gray-700 font-medium mt-3 md:mt-0">
+              {task.deadline ? (
+                <span
+                  className={`px-3 py-1 rounded-full text-sm ${
+                    new Date(task.deadline) < new Date() && !task.completed
+                      ? "bg-red-50 text-red-600 border border-red-200"
+                      : "bg-blue-50 text-blue-600 border border-blue-200"
+                  }`}
                 >
-                  <AiOutlineEdit size={22} />
-                </button>
-                <button
-                  onClick={() => onDelete(task._id)}
-                  className="text-red-500 hover:text-red-600 transition"
-                >
-                  <AiOutlineDelete size={22} />
-                </button>
-              </div>
-            </li>
-          </div>
+                  {format(new Date(task.deadline), "dd/MM/yyyy")}
+                </span>
+              ) : (
+                <span className="italic text-gray-400">Không có</span>
+              )}
+            </div>
+
+            {/* Category */}
+            <div className="flex justify-center mt-2 md:mt-0">
+              <span className="px-3 py-1 rounded-full text-sm font-medium bg-pink-50 text-pink-700 border border-pink-200">
+                {getCategory(task)}
+              </span>
+            </div>
+
+            {/* Priority */}
+            <div className="flex justify-center mt-2 md:mt-0">
+              <span
+                className={`px-3 py-1 rounded-full text-sm font-semibold border ${
+                  task.priority === "high"
+                    ? "bg-red-50 text-red-700 border-red-200"
+                    : task.priority === "medium"
+                    ? "bg-yellow-50 text-yellow-700 border-yellow-200"
+                    : "bg-green-50 text-green-700 border-green-200"
+                }`}
+              >
+                {task.priority === "high"
+                  ? "Cao"
+                  : task.priority === "medium"
+                  ? "Trung bình"
+                  : "Thấp"}
+              </span>
+            </div>
+
+            {/* Actions */}
+            <div className="flex justify-center gap-3 mt-3 md:mt-0">
+              <button
+                onClick={() => onEdit(task)}
+                className="p-2 rounded-full bg-blue-50 text-blue-600 hover:bg-blue-100 hover:scale-110 transition-all"
+                title="Chỉnh sửa"
+              >
+                <AiOutlineEdit size={18} />
+              </button>
+              <button
+                onClick={() => onDelete(task._id)}
+                className="p-2 rounded-full bg-red-50 text-red-600 hover:bg-red-100 hover:scale-110 transition-all"
+                title="Xóa"
+              >
+                <AiOutlineDelete size={18} />
+              </button>
+            </div>
+          </motion.li>
         ))}
       </ul>
     </div>

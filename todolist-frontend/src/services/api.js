@@ -104,12 +104,13 @@ const authAPI = {
 }
 
 const taskAPI = {
-    create: async ({ title, description, deadline, categoryId }) => {
+    create: async ({ title, description, deadline, priority, categoryId }) => {
         try {
             const response = await API.post("/api/tasks/", {
                 title,
                 description,
                 deadline,
+                priority,
                 categoryId
             });
             return response.data;

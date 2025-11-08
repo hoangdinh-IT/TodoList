@@ -3,16 +3,16 @@ import Category from "../models/category.model.js";
 
 const createTask = async (req, res) => {
     try {
-        const { title, description, deadline, categoryId } = req.body;
+        const { title, description, deadline, priority, categoryId } = req.body;
 
         const task = await Task.create({
             title,
             description,
             deadline,
+            priority,
             categoryId,
             userId: req.user._id,
         });
-
         res.status(201).json(task);
     } catch (err) {
         console.error("Error in createTask: ", err);
@@ -50,7 +50,7 @@ const getTask = async (req, res) => {
 const updateTask = async (req, res) => {
     try {
         const { taskId } = req.params;
-        const { title, description, deadline, categoryId } = req.body;
+        const { title, description, deadline, priority, categoryId } = req.body;
 
         const task = await Task.findById(taskId);   
         
@@ -65,6 +65,7 @@ const updateTask = async (req, res) => {
         task.title = title ?? task.title;
         task.description = description ?? task.description;
         task.deadline = deadline ?? task.deadline;
+        task.priority = priority ?? task.priority;
         task.categoryId = categoryId ?? task.categoryId;
 
         const updated = await task.save();

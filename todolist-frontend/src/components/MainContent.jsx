@@ -69,7 +69,13 @@ const MainContent = ({ isState }) => {
       return dateA - dateB;
     });
 
-    setTasks(sorted);
+    // Sắp xếp theo priority (cao > trung bình > thấp)
+    const priorityOrder = { high: 1, medium: 2, low: 3 };
+    const sortedByPriority = sorted.sort(
+      (a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]
+    );
+    
+    setTasks(sortedByPriority);
   }, [dataTasks, isState, searchTerm, filteredCategory]);
 
   // === Handlers ===

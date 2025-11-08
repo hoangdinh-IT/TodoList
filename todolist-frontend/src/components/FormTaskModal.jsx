@@ -13,7 +13,8 @@ const AddTaskModal = ({ editingTask, categories, onClose }) => {
     title: "",
     description: "",
     deadline: "",
-    categoryId: ""
+    priority: "",
+    categoryId: "",
   });
 
   useEffect(() => {
@@ -22,6 +23,7 @@ const AddTaskModal = ({ editingTask, categories, onClose }) => {
         title: editingTask.title || "",
         description: editingTask.description || "",
         deadline: editingTask.deadline ? editingTask.deadline.split("T")[0] : "",
+        priority: editingTask.priority || "",
         categoryId: editingTask.categoryId || ""
       });
     } else {
@@ -29,7 +31,8 @@ const AddTaskModal = ({ editingTask, categories, onClose }) => {
         title: "",
         description: "",
         deadline: "",
-        categoryId: ""
+        priority: "",
+        categoryId: "",
       });
     }
   }, [editingTask]);
@@ -47,7 +50,8 @@ const AddTaskModal = ({ editingTask, categories, onClose }) => {
         title: "",
         description: "",
         deadline: "",
-        categoryId: ""
+        priority: "",
+        categoryId: "",
       });
       queryClient.invalidateQueries(["tasks"]);
       onClose();
@@ -65,7 +69,8 @@ const AddTaskModal = ({ editingTask, categories, onClose }) => {
         title: "",
         description: "",
         deadline: "",
-        categoryId: ""
+        priority: "",
+        categoryId: "",
       });
       queryClient.invalidateQueries(["tasks"]);
       onClose();
@@ -82,8 +87,9 @@ const AddTaskModal = ({ editingTask, categories, onClose }) => {
       return;
     }
 
-    if (!editingTask)
+    if (!editingTask) {
       addTask.mutate(formData);
+    }
     else
       updateTask.mutate({ taskId: editingTask._id, ...formData });
   };
@@ -192,7 +198,22 @@ const AddTaskModal = ({ editingTask, categories, onClose }) => {
                   </p>
                 )}
               </div>
+            </div>
 
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Mức độ ưu tiên</label>
+              <div>
+                <select
+                  name="priority"
+                  value={formData.priority || "medium"}
+                  onChange={handleChange}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-400"
+                >
+                  <option value="low">Thấp</option>
+                  <option value="medium">Trung bình</option>
+                  <option value="high">Cao</option>
+                </select>
+              </div>
             </div>
 
             {/* Buttons */}
