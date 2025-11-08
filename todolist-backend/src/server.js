@@ -39,6 +39,11 @@ app.get("/", (req, res) => {
     res.send("Server đã chạy thành công!");
 })
 
+// Route giữ awake - trả về 200 OK
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'OK', uptime: process.uptime() });
+});
+
 mongoose
     .connect(MONGO_URI)
     .then(() => {
