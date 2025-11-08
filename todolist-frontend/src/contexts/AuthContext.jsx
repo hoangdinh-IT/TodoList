@@ -8,8 +8,8 @@ const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const savedUser = sessionStorage.getItem("user");
-        const savedToken = sessionStorage.getItem("token");
+        const savedUser = localStorage.getItem("user");
+        const savedToken = localStorage.getItem("token");
 
         if (savedUser && savedToken) {
             setUser({ username: savedUser });
@@ -20,8 +20,8 @@ const AuthProvider = ({ children }) => {
     }, []);
 
     const login = (username, token) => {
-        sessionStorage.setItem("user", username);
-        sessionStorage.setItem("token", token);
+        localStorage.setItem("user", username);
+        localStorage.setItem("token", token);
         setUser({ username });
         setToken(token);
     }
@@ -29,8 +29,8 @@ const AuthProvider = ({ children }) => {
     const logout = () => {
         setUser(null);
         setToken("");
-        sessionStorage.removeItem("user");
-        sessionStorage.removeItem("token");
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
     }
 
     return (

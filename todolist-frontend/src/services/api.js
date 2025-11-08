@@ -137,12 +137,13 @@ const taskAPI = {
         }
     },
 
-    update: async ({ taskId, title, description, deadline, categoryId }) => {
+    update: async ({ taskId, title, description, deadline, priority, categoryId }) => {
         try {
             const response = await API.put(`/api/tasks/${taskId}`, {
                 title,
                 description,
                 deadline,
+                priority,
                 categoryId
             });
             return response.data;

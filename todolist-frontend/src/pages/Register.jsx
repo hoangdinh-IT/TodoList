@@ -27,7 +27,6 @@ const Register = () => {
   const register = useMutation({
     mutationFn: authAPI.register,
     onSuccess: (data) => {
-      console.log(data);
       showSnackbar("Đăng ký tài khoản thành công!", "success");
       navigate("/login");
     },

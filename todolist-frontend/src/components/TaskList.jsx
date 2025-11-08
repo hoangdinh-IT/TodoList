@@ -74,13 +74,7 @@ const TaskList = ({ tasks, categories, onToggleComplete, onEdit, onDelete }) => 
             {/* Deadline */}
             <div className="text-center text-gray-700 font-medium mt-3 md:mt-0">
               {task.deadline ? (
-                <span
-                  className={`px-3 py-1 rounded-full text-sm ${
-                    new Date(task.deadline) < new Date() && !task.completed
-                      ? "bg-red-50 text-red-600 border border-red-200"
-                      : "bg-blue-50 text-blue-600 border border-blue-200"
-                  }`}
-                >
+                <span className="px-3 py-1 rounded-full text-sm">
                   {format(new Date(task.deadline), "dd/MM/yyyy")}
                 </span>
               ) : (
@@ -90,7 +84,7 @@ const TaskList = ({ tasks, categories, onToggleComplete, onEdit, onDelete }) => 
 
             {/* Category */}
             <div className="flex justify-center mt-2 md:mt-0">
-              <span className="px-3 py-1 rounded-full text-sm font-medium bg-pink-50 text-pink-700 border border-pink-200">
+              <span className="px-3 py-1 text-sm font-medium">
                 {getCategory(task)}
               </span>
             </div>
