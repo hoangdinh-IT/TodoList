@@ -2,30 +2,92 @@
 
 Một ứng dụng quản lý công việc đơn giản, giúp bạn ghi chú, đánh dấu hoàn thành và tổ chức các nhiệm vụ hàng ngày.
 
-## Tính năng
+## ✨ Tính năng chính
 
-- Thêm, sửa, xóa các công việc (Todo).
+### **User Management**
+
+- **Xác thực người dùng**: Đăng ký, đăng nhập, quên mật khẩu, đổi mật khẩu
+
+### **Todo Features**
+
+- **Quản lý danh mục**: Thêm, sửa, xoá, lưu trữ và quản lý danh sách các danh mục.
+- **Quản lý công việc**: Thêm, sửa, xoá, lưu trữ và quản lý danh sách các công việc.
 - Đánh dấu công việc đã hoàn thành.
-- Lưu trữ và quản lý danh sách công việc.
-- Giao diện đơn giản, dễ sử dụng.
+- **Thống kê**: Thống kê tổng công việc, công việc đã hoàn thành và chưa hoàn thành bằng biểu đồ tròn.
 
-## Yêu cầu
+### **UI/UX Features**
 
-- [Nền tảng/Ngôn ngữ chính] (VD: Node.js >= 14, Python >= 3.7, ...)
-- [Các thư viện phụ thuộc] (liệt kê tại đây hoặc hướng dẫn cài qua package manager)
+- **Responsive Design**: Tối ưu cho mobile, tablet, desktop
+- **Modern UI**: Sử dụng TailwindCSS với thiết kế hiện đại
+- **Loading States**: Spinner loading
+- **Snackbar Notifications**: Thông báo real-time cho các hành động
 
-## Cài đặt
+## Công nghệ sử dụng
+
+### **Frontend**
+
+- **React** 19.1.1 – UI Library
+- **Vite** 7.1.7 – Build tool & dev server
+- **TailwindCSS** 3.4.18 – CSS Framework
+- **React Router DOM** 7.9.4 – Client-side routing
+- **TanStack React Query** 5.90.5 – Data fetching & caching
+- **Axios** 1.12.2 – HTTP client
+- **React Toastify** 11.0.5 – Notifications
+- **Framer Motion** 12.23.24 – Animation library
+- **React Bootstrap** 2.10.10 – UI components
+- **Material UI (MUI)** 7.3.4 – UI component library
+- **React Icons** 5.5.0 – Icon library
+- **Recharts** 3.3.0 – Chart library
+- **Hello Pangea DnD** 18.0.1 – Drag & drop library
+
+### **Backend**
+
+- **Node.js** – Runtime environment
+- **Express** 5.1.0 – Web framework
+- **Mongoose** 8.19.3 – MongoDB ODM
+- **JWT (jsonwebtoken 9.0.2)** – Authentication
+bcrypt / bcryptjs – Password hashing
+- **dotenv** 17.2.3 – Environment variables
+- **CORS** 2.8.5 – Cross-origin resource sharing
+- **Nodemailer** 7.0.10 – Email sending
+- **@sendgrid/mail** 8.1.6 – Email service (SendGrid API)
+- **Express-rate-limit** 8.2.1 – API rate limiting
+- **Axios** 1.13.2 – HTTP client
+- **Morgan** 1.10.1 – HTTP request logger
+
+### **DevOps & Tools**
+
+- **Nodemon** 3.1.10 – Development auto-restart tool
+- **Git** - Version control
+
+## Cài đặt và chạy dự án
+
+### **Yêu cầu hệ thống**
+- Node.js >= 18.0.0
+- MongoDB >= 6.0
+- Git
+
+### **1. Clone repository**
 
 ```bash
-# Clone repository
 git clone https://github.com/hoangdinh-34/TodoList.git
 cd TodoList
+```
 
-# Cài đặt phụ thuộc (ví dụ với Node.js)
+### **2. Cài đặt dependencies**
+
+#### **Frontend**
+
+```bash
+cd todolist-frontend
 npm install
+```
 
-# Khởi động ứng dụng (tùy thuộc vào ngôn ngữ)
-npm start
+#### **Backend**
+
+```bash
+cd todolist-backend
+npm install
 ```
 
 ## Sử dụng
