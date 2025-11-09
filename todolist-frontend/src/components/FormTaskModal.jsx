@@ -13,7 +13,7 @@ const AddTaskModal = ({ editingTask, categories, onClose }) => {
     title: "",
     description: "",
     deadline: "",
-    priority: "",
+    priority: "medium",
     categoryId: "",
   });
 
@@ -31,7 +31,7 @@ const AddTaskModal = ({ editingTask, categories, onClose }) => {
         title: "",
         description: "",
         deadline: "",
-        priority: "",
+        priority: "medium",
         categoryId: "",
       });
     }
@@ -50,7 +50,7 @@ const AddTaskModal = ({ editingTask, categories, onClose }) => {
         title: "",
         description: "",
         deadline: "",
-        priority: "",
+        priority: "medium",
         categoryId: "",
       });
       queryClient.invalidateQueries(["tasks"]);
@@ -69,7 +69,7 @@ const AddTaskModal = ({ editingTask, categories, onClose }) => {
         title: "",
         description: "",
         deadline: "",
-        priority: "",
+        priority: "medium",
         categoryId: "",
       });
       queryClient.invalidateQueries(["tasks"]);

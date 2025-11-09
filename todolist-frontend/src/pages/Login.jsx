@@ -31,7 +31,7 @@ const Login = () => {
   }, [user]);
 
   const loginMutation = useMutation({
-    mutationFn: authAPI.login,
+    mutationFn: ({ username, password}) => authAPI.login({ username, password }),
     onSuccess: (data) => {
       login(data.username, data.token);
       showSnackbar("Đăng nhập thành công!", "success");

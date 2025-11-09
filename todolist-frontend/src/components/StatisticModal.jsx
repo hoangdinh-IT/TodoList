@@ -10,7 +10,7 @@ import { taskAPI } from "../services/api";
 const COLORS = ["#22c55e", "#facc15"]; 
 
 const StatisticsModal = ({ onClose }) => {
-  const { data: tasks = [], isLoading } = useQuery({
+  const { data: tasks = [] } = useQuery({
     queryKey: ["tasks"],
     queryFn: taskAPI.getAll,
   });

@@ -32,9 +32,9 @@ API.interceptors.response.use(
 );
 
 const authAPI = {
-    login: async ({ username, password }) => {
+    register: async ({ username, password }) => {
         try {
-            const response = await API.post("/api/auth/login", {
+            const response = await API.post("/api/auth/register", {
                 username,
                 password
             });
@@ -44,9 +44,10 @@ const authAPI = {
         }
     },
 
-    register: async ({ username, password }) => {
+    
+    login: async ({ username, password }) => {
         try {
-            const response = await API.post("/api/auth/register", {
+            const response = await API.post("/api/auth/login", {
                 username,
                 password
             });

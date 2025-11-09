@@ -26,12 +26,12 @@ const Register = () => {
 
   const register = useMutation({
     mutationFn: authAPI.register,
-    onSuccess: (data) => {
+    onSuccess: () => {
       showSnackbar("Đăng ký tài khoản thành công!", "success");
       navigate("/login");
     },
     onError: (err) => {
-      showSnackbar(err.response?.data?.message || "Đăng ký thất bại!", "error");
+      showSnackbar(err?.response?.data?.message || "Đăng ký thất bại!", "error");
     },
   });
 
