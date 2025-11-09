@@ -22,7 +22,7 @@ Một ứng dụng quản lý công việc đơn giản, giúp bạn ghi chú, �
 - **Loading States**: Spinner loading
 - **Snackbar Notifications**: Thông báo real-time cho các hành động
 
-## Công nghệ sử dụng
+## 🚀 Công nghệ sử dụng
 
 ### **Frontend**
 
@@ -60,7 +60,7 @@ bcrypt / bcryptjs – Password hashing
 - **Nodemon** 3.1.10 – Development auto-restart tool
 - **Git** - Version control
 
-## Cài đặt và chạy dự án
+## ⚡ Cài đặt và chạy dự án
 
 ### **Yêu cầu hệ thống**
 - Node.js >= 18.0.0
@@ -90,26 +90,98 @@ cd todolist-backend
 npm install
 ```
 
-## Sử dụng
+### **3. Cấu hình Environment Variables**
 
-1. Chạy ứng dụng bằng câu lệnh ở trên.
-2. Truy cập [http://localhost:3000](http://localhost:3000) (hoặc port mà app chạy tuỳ thiết lập).
-3. Thêm, đánh dấu hoàn thành hoặc xoá công việc trong giao diện.
+#### **Client (.env)**
 
-## Ví dụ (ảnh chụp màn hình)
-<!-- Chèn ảnh giao diện nếu có -->
-<img src="screenshot.png" alt="TodoList Screenshot" width="600">
+```env
+VITE_BACKEND_URL=http://localhost:5005
+```
 
-## Đóng góp
+#### **Backend (.env)**
+```env
+MONGO_URI=mongodb://127.0.0.1:27017/todolist
+JWT_SECRET=supersecret
+PORT=5005
+SENDGRID_API_KEY=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
+SENDER_EMAIL=hoangdinh20040104@gmail.com
+SENDER_NAME=TodoList
+```
+
+### **4. Chạy ứng dụng**
+
+**Terminal 1 - Frontend**
+
+```bash
+cd todolist-frontend
+npm run dev
+# Server chạy tại: http://localhost:5173
+```
+
+**Terminal 2 - Backend**
+
+```bash
+cd todolist-backend
+npm run dev
+# Server chạy tại: http://localhost:5005
+```
+
+### **5. Truy cập ứng dụng**
+
+#### Local
+
+- **Frontend: http://localhost:5173**
+- **Backend: http://localhost:5005**
+
+#### Website
+- https://todolist-rkait.vercel.app/
+
+## API Documentation
+
+### **Authentication Endpoints**
+
+```http
+POST /api/auth/register          # Đăng ký
+POST /api/auth/login             # Đăng nhập
+POST /api/auth/change-password   # Thay đổi mật khẩu
+POST /api/auth/send-otp          # Gửi mã OTP
+POST /api/auth/verify-otp        # Xác nhận mã OTP
+POST /api/auth/reset-password    # Đặt lại mật khẩu
+```
+
+### **Category Endpoints**
+
+```http
+POST /api/categories                 # Thêm mới danh mục
+GET /api/categories                  # Lấy danh sách danh mục
+GET /api/categories/:categoryId      # Lấy chi tiết danh mục
+PUT /api/categories/:categoryId      # Cập nhật danh mục
+DELETE /api/categories/:categoryId   # Xoá danh mục
+PUT /api/categories/update-order     # Cập nhật thứ tự danh mục
+```
+
+### **Task Endpoints**
+
+```http
+POST /api/tasks             # Thêm mới công việc
+GET /api/tasks              # Lấy danh sách công việc
+GET /api/tasks/:taskId      # Lấy chi tiết công việc
+PUT /api/tasks/:taskId      # Cập nhật công việc
+DELETE /api/tasks/:taskId   # Xoá công việc
+```
+
+## 🤝 Đóng góp
 
 - Fork repository, tạo nhánh mới và gửi pull request khi bạn muốn đóng góp.
 - Báo lỗi hoặc gợi ý tính năng [tại đây](https://github.com/hoangdinh-34/TodoList/issues).
 
-## Giấy phép
+---
 
-MIT License.
+## 👨‍💻 Tác giả
 
-## Liên hệ
+**hoangdinh-34**
 
-- Tác giả: [hoangdinh-34](https://github.com/hoangdinh-34)
-- Email: your-email@example.com
+- GitHub: [@hoangdinh-34](https://github.com/hoangdinh-34)
+- Email: hoangdinh.040104@gmail.com
+
+---
