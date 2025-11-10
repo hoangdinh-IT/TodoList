@@ -3,7 +3,7 @@ import crypto from "crypto";
 import User from "../models/user.model.js";
 import OtpModel from "../models/otp.model.js";
 import { JWT_SECRET } from "../config.js";
-import { sendEmail, emailTemplate } from "../email.js";
+import { sendEmail, emailOTP } from "../email.js";
 
 const register = async (req, res) => {
     try {
@@ -93,7 +93,7 @@ const sendOtp = async (req, res) => {
     const otpHash = hashOtp(otp);
     await OtpModel.create({ email, otpHash });
 
-    const html = emailTemplate(otp);
+    const html = emailOTP(otp);
 
     await sendEmail({
       to: email,

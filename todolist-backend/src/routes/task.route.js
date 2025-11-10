@@ -5,7 +5,6 @@ import { createTask, getTasks, getTask, updateTask, deleteTask, updateCompletedT
 const router = express.Router();
 
 router.put("/update-completed/:taskId", protect, updateCompletedTask);
-// router.get("/categoryId", protect, getTasksByCategory);
 
 router.post("/", protect, createTask);
 router.get("/", protect, getTasks);

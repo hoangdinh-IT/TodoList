@@ -15,7 +15,7 @@ const sendEmail = async ({ to, subject, html }) => {
   await sgMail.send(msg);
 };
 
-const emailTemplate = (otp) => `
+const emailOTP = (otp) => `
       <div style="font-family: 'Helvetica Neue', Arial, sans-serif; background:#f9f9f9; padding: 20px;">
         <div style="max-width: 480px; margin: auto; background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
           
@@ -46,5 +46,5 @@ const emailTemplate = (otp) => `
 
 export {
     sendEmail,
-    emailTemplate
+    emailOTP
 }
