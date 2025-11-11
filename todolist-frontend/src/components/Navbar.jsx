@@ -83,7 +83,7 @@ const Navbar = ({ setIsSidebarOpen }) => {
         {/* Logo */}
         <div
           className="flex items-center gap-3 select-none cursor-pointer"
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/dashboard")}
         >
           <img
             src={assets.logo}
