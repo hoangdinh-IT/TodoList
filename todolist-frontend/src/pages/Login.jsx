@@ -148,7 +148,7 @@ const Login = () => {
               disabled={loginMutation.isLoading}
               className="w-full text-sm sm:text-base bg-gradient-to-r from-pink-500 to-indigo-500 hover:from-pink-600 hover:to-indigo-600 text-white font-semibold py-3 rounded-lg shadow-lg flex justify-center items-center transition-all duration-200"
             >
-              {loginMutation.isLoading ? <Spinner /> : "ĐĂNG NHẬP"}
+              {!loginMutation.isLoading ? <Spinner /> : "ĐĂNG NHẬP"}
             </button>
           </form>
 
