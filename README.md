@@ -70,7 +70,7 @@ bcrypt / bcryptjs – Password hashing
 ### **1. Clone repository**
 
 ```bash
-git clone https://github.com/hoangdinh-34/TodoList.git
+git clone https://github.com/hoangdinh-IT/TodoList.git
 cd TodoList
 ```
 
@@ -173,15 +173,15 @@ DELETE /api/tasks/:taskId   # Xoá công việc
 ## 🤝 Đóng góp
 
 - Fork repository, tạo nhánh mới và gửi pull request khi bạn muốn đóng góp.
-- Báo lỗi hoặc gợi ý tính năng [tại đây](https://github.com/hoangdinh-34/TodoList/issues).
+- Báo lỗi hoặc gợi ý tính năng [tại đây](https://github.com/hoangdinh-IT/TodoList/issues).
 
 ---
 
 ## 👨‍💻 Tác giả
 
-**hoangdinh-34**
+**hoangdinh-IT**
 
-- GitHub: [@hoangdinh-34](https://github.com/hoangdinh-34)
+- GitHub: [@hoangdinh-IT](https://github.com/hoangdinh-IT)
 - Email: hoangdinh.040104@gmail.com
 
 ---
